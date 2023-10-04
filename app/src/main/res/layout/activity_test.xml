@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".TestActivity">
+    <TextView
+        android:id="@+id/tv_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:fontFamily="@font/mountains_of_christmas"
+        android:text="@string/views_temp"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="26sp"/>
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_temp"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginTop="30sp"
+
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/montserrat"
+        android:ems="10"
+        android:inputType="text"
+        android:textColorHint="@color/colorAccent"
+        android:textColor="@color/colorText"
+        android:hint="@string/edit_city" />
+    <Button
+        android:id="@+id/btn_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginTop="30sp"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/btn_temp"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:layout_below="@id/btn_temp"
+        android:fontFamily="@font/mountains_of_christmas"
+        android:textColor="@color/colorText"
+        android:textSize="14sp"/>
+
+</RelativeLayout>

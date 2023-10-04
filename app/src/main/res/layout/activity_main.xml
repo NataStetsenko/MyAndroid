@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/main_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40sp"
+        android:fontFamily="@font/mountains_of_christmas"
+        android:text="@string/main_tv_title"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="26sp"/>
+
+    <Button
+        android:id="@+id/main_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_tv_title"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginTop="30sp"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/app_btn_UA"
+        android:textSize="14sp" />
+    <Button
+        android:id="@+id/app_btn_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_btn"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginTop="30sp"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/app_btn_temp"
+        android:textSize="14sp" />
+
+
+
+</RelativeLayout>

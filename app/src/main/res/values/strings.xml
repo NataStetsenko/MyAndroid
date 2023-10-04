@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MyAndroid</string>
+    <string name="main_tv_title">Знайомство з Android</string>
+    <string name="app_btn_UA">Елементи UA</string>
+    <string name="app_btn_temp">Прогноз</string>
+
+
+    <string name="view_tv_title">Елементи UA (Views)</string>
+    <string name="button1">1</string>
+    <string name="button2">2</string>
+    <string name="button3">3</string>
+    <string name="linear_layout_h">LinearLayout:horizontal:</string>
+
+
+    <string name="views_temp">Прогноз погоди</string>
+    <string name="edit_city">Ваше місто</string>
+    <string name="btn_temp">Отримати прогноз</string>
+    <string name="no_input">Введить Ваше місто!</string>
+</resources>
