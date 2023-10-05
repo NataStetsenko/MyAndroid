@@ -16,9 +16,11 @@ private TextView main_tv_title;
         setContentView(R.layout.activity_main);
         Button main_btn = findViewById(R.id.main_btn);
         Button test_btn = findViewById(R.id.app_btn_temp);
+        Button app_btn_calc = findViewById(R.id.app_btn_calc);
         main_tv_title =  findViewById(R.id.main_tv_title);
         main_btn.setOnClickListener(this::mainBtnClick);
         test_btn.setOnClickListener(this::testBtnClick);
+        app_btn_calc.setOnClickListener(this::calcBtnClick);
     }
     private void mainBtnClick(View view){
         Intent intent = new Intent(this.getApplicationContext(), ViewsActivity.class);
@@ -26,6 +28,10 @@ private TextView main_tv_title;
     }
     private void testBtnClick(View view){
         Intent intent = new Intent(this.getApplicationContext(), TestActivity.class);
+        startActivity(intent);
+    }
+    private void calcBtnClick(View view){
+        Intent intent = new Intent(this.getApplicationContext(), CalcActivity.class);
         startActivity(intent);
     }
 }
