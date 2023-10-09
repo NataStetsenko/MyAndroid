@@ -3,7 +3,7 @@
     <string name="main_tv_title">Знайомство з Android</string>
     <string name="app_btn_UA">Елементи UA</string>
     <string name="app_btn_temp">Прогноз</string>
-    <string name="app_btn_calc">Калькулятор</string>
+    <string name="calc_tv_title">Калькулятор</string>
 
 
     <string name="view_tv_title">Елементи UA (Views)</string>
@@ -22,25 +22,25 @@
     <string name="calc_btn_percent">%</string>
     <string name="calc_btn_c">C</string>
     <string name="calc_btn_ce">CE</string>
-    <string name="calc_btn_bs">\u232B</string>
+    <string name="calc_btn_backspace">\u232B</string>
 
 
-    <string name="calc_btn_inv">\u00B9/\u2093</string>
-    <string name="calc_btn_sqv">x\u00B2</string>
+    <string name="calc_btn_inverse">\u00B9/\u2093</string>
+    <string name="calc_btn_square">x\u00B2</string>
     <string name="calc_btn_sqrt">\u221A\u0078\u0304</string>
-    <string name="calc_btn_div">\u00F7</string>
+    <string name="calc_btn_divide">\u00F7</string>
 
 
     <string name="calc_btn_7">\u0037</string>
     <string name="calc_btn_8">\u0038</string>
     <string name="calc_btn_9">\u0039</string>
-    <string name="calc_btn_multi">\u00D7</string>
+    <string name="calc_btn_multiplication">\u00D7</string>
 
 
     <string name="calc_btn_4">\u0034</string>
     <string name="calc_btn_5">\u0035</string>
     <string name="calc_btn_6">\u0036</string>
-    <string name="calc_btn_min">\u002D</string>
+    <string name="calc_btn_minus">\u002D</string>
 
     <string name="calc_btn_1">\u0031</string>
     <string name="calc_btn_2">\u0032</string>
@@ -48,8 +48,11 @@
     <string name="calc_btn_plus">\u002B</string>
 
 
-    <string name="calc_btn_plus_min">\u002B/\u002D</string>
+    <string name="calc_btn_plus_minus">\u002B/\u002D</string>
     <string name="calc_btn_0">\u0030</string>
     <string name="calc_btn_comma">\u002C</string>
-    <string name="calc_btn_equals">\u003D</string>
+    <string name="calc_btn_equal">\u003D</string>
+
+
+    <string name="calc_div_zero_message">Cannot divide by zero</string>
 </resources>

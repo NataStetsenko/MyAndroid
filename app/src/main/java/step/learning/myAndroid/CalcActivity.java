@@ -1,5 +1,6 @@
 package step.learning.myAndroid;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,137 +9,201 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 public class CalcActivity extends AppCompatActivity {
-    private Button calc_btn_multi;
-    private Button calc_btn_min;
-    private Button calc_btn_plus;
-    private Button calc_btn_div;
-    private Button calc_btn_1;
-    private Button calc_btn_2;
-    private Button calc_btn_3;
-    private Button calc_btn_4;
-    private Button calc_btn_5;
-    private Button calc_btn_6;
-    private Button calc_btn_7;
-    private Button calc_btn_8;
-    private Button calc_btn_9;
-    private Button calc_btn_0;
-    private Button calc_btn_comma;
-    private Button calc_btn_c;
-    private Button calc_btn_equals;
-    private TextView tv_exp;
-    private TextView tv_res;
-    private StringBuffer num = new StringBuffer();
-    private double result = 0;
-    private boolean flag = true;
+    //сохранение данных при повороте
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calc);
-        tv_exp = findViewById(R.id.tv_exp);
-        tv_res = findViewById(R.id.tv_res);
-        setOnClick();
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tvResult.setText(savedInstanceState.getCharSequence("result"));
+        tvExpression.setText(savedInstanceState.getCharSequence("expression"));
     }
-    private void mainClick(View view) {
-        View foundView = findViewById(view.getId());
-        String temp = tv_exp.getText().toString();                //содержимое exp
-        int length = temp.length();
-        if (foundView instanceof Button) {
-            Button button = (Button) foundView;
-            String buttonText = button.getText().toString();     //содержимое button
-            if (!flag || buttonText.equals("C")) {
-                num.delete(0, num.length());
-                result = 0;
-                tv_exp.setText("");
-                tv_res.setText("0");
-                flag = true;
-                if (buttonText.equals("C")) return;
-            }
-            if (buttonText.equals("=")) {
-                tv_res.setText(Double.toString(result));
-                flag = false;
-            }
-            if (buttonText.length() > 0 && Character.isDigit(buttonText.charAt(0))) { // если button цифра
-                tv_exp.setText(tv_exp.getText() + buttonText);
-                num.append(buttonText);
-            } else {                                                                    // если button знак
-                if (length == 0) return;
-                if (Character.isDigit(temp.charAt(length - 1))) {                     // если посл. tv_exp цифра
-                    if (buttonText.equals(",")) {                                     // цифра + button ","
-                        String str = num.toString();
-                        if (str.contains(".")) return;
-                        num.append(".");
-                        tv_exp.setText(tv_exp.getText() + buttonText);
-                        return;
-                    } else {                                                             // цифра + button знак
-                        try {
-                            result += Double.parseDouble(num.toString());
-                            tv_res.setText(Double.toString(result));
-                        } catch (NumberFormatException e) {
-                            e.getMessage();
-                        }
-                        tv_exp.setText(tv_exp.getText() + buttonText);
-                        num.delete(0, num.length());
-                    }
-                } else {
-                    if (buttonText.equals(",")) return;
-                    tv_exp.setText(tv_exp.getText().toString().substring(0, length - 1) + buttonText);
-                    num.delete(0, num.length());
-                }
-            }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence("result", tvResult.getText());
+        outState.putCharSequence("expression", tvExpression.getText());
+    }
+    private final int MAX_DIGITS = 10;
+    private TextView tvResult ;
+    private TextView tvExpression ;
+    private double operand = 0;
+    private double operand2  = 0;
+    private boolean flag = true;
+    private boolean flag2 = true;
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_calc );
+        tvResult = findViewById( R.id.calc_tv_result );
+        tvExpression = findViewById( R.id.calc_tv_expression );
+        tvResult.setText( R.string.calc_btn_0 ) ;
+        tvExpression.setText("");
+
+        for( int i = 0; i < 10; i++ ) {
+            findViewById(
+                    getResources().getIdentifier(
+                            "calc_btn_" + i,
+                            "id",
+                            getPackageName()
+                    ) ).setOnClickListener( this::digitClick );
+        }
+        findViewById( R.id.calc_btn_c ).setOnClickListener( this::clearClickC);
+        findViewById( R.id.calc_btn_ce ).setOnClickListener( this::clearClickCE);
+        findViewById( R.id.calc_btn_inverse ).setOnClickListener( this::inverseClick );
+        findViewById(R.id.calc_btn_comma).setOnClickListener( this::commaClick );
+        findViewById(R.id.calc_btn_plus).setOnClickListener( this::mainClick );
+        findViewById(R.id.calc_btn_minus).setOnClickListener( this::mainClick );
+        findViewById(R.id.calc_btn_multiplication).setOnClickListener( this::mainClick );
+        findViewById(R.id.calc_btn_divide).setOnClickListener( this::mainClick );
+        findViewById(R.id.calc_btn_equal).setOnClickListener( this::mainClick );
+        findViewById(R.id.calc_btn_square).setOnClickListener( this::sqrClick );
+        findViewById(R.id.calc_btn_backspace).setOnClickListener( this::backspaceClick );
+        findViewById(R.id.calc_btn_sqrt).setOnClickListener( this::sqrtClick );
+
+    }
+    private void sqrtClick( View view ) {
+        String str = tvResult.getText().toString();
+        double arg = getResult(str);
+        showResult(arg);
+        str = "sqrt(" + showResult(arg) + ")";
+        tvExpression.setText(str);
+        tvResult.setText(showResult(Math.sqrt(arg)));
+    }
+    private void backspaceClick( View view ) {
+        String str = tvResult.getText().toString();
+        if (str.length()>0)
+        tvResult.setText(tvResult.getText().toString().substring(0, str.length() - 1));
+    }
+    private void inverseClick( View view ) {
+        String str = tvResult.getText().toString() ;
+        double arg = getResult(str) ;
+        if( arg == 0 ) {
+            tvResult.setText( R.string.calc_div_zero_message);
+        }
+        else {
+            str = "1/" +  showResult(arg) + "=";
+            tvExpression.setText(str);
+            tvResult.setText(showResult(1/arg));
         }
     }
 
-    private void setOnClick() {
-        calc_btn_1 = findViewById(R.id.calc_btn_1);
-        calc_btn_1.setOnClickListener(this::mainClick);
+    private void sqrClick(View view) {
+        String str = tvResult.getText().toString();
+        double arg = getResult(str);
+        showResult(arg);
+        str = "sqr(" + showResult(arg) + ")";
+        tvExpression.setText(str);
+        tvResult.setText(showResult(Math.pow(arg, 2)));
+    }
+    private void digitClick( View view ) {
+        String expression = tvExpression.getText().toString() ;
+        if (expression.contains("=")) {
+            tvResult.setText("");
+            tvExpression.setText("");
+        }
+        int length = expression.length();
+        if (flag&&length > 0 && !Character.isDigit(expression.charAt(length - 1))){// знак в конце expression
+           tvResult.setText("");
+           flag = false;
+        }
+        String str = tvResult.getText().toString() ;
+        if( str.equals( getString( R.string.calc_btn_0 ) ) ) {
+            str = "";
+        }
+        str += ( ( Button ) view ).getText();
+        tvResult.setText( str );
+        operand2  = getResult(str);
 
-        calc_btn_2 = findViewById(R.id.calc_btn_2);
-        calc_btn_2.setOnClickListener(this::mainClick);
+    }
+    private void mainClick( View view ) {
+        String exp = tvExpression.getText().toString();
+//        if (flag2 && exp.length() > 0 && !Character.isDigit(exp.charAt(exp.length() - 1))) {
+//           // tvResult.setText(tvResult.getText().toString().substring(0, exp.length() - 1) + ((Button) view).getText());
+//            tvExpression.setText("");
+//            flag2=false;
+//        }
 
-        calc_btn_3 = findViewById(R.id.calc_btn_3);
-        calc_btn_3.setOnClickListener(this::mainClick);
-
-        calc_btn_4 = findViewById(R.id.calc_btn_4);
-        calc_btn_4.setOnClickListener(this::mainClick);
-
-        calc_btn_5 = findViewById(R.id.calc_btn_5);
-        calc_btn_5.setOnClickListener(this::mainClick);
-
-        calc_btn_6 = findViewById(R.id.calc_btn_6);
-        calc_btn_6.setOnClickListener(this::mainClick);
-
-        calc_btn_7 = findViewById(R.id.calc_btn_7);
-        calc_btn_7.setOnClickListener(this::mainClick);
-
-        calc_btn_8 = findViewById(R.id.calc_btn_8);
-        calc_btn_8.setOnClickListener(this::mainClick);
-
-        calc_btn_9 = findViewById(R.id.calc_btn_9);
-        calc_btn_9.setOnClickListener(this::mainClick);
-
-        calc_btn_0 = findViewById(R.id.calc_btn_0);
-        calc_btn_0.setOnClickListener(this::mainClick);
-
-        calc_btn_multi = findViewById(R.id.calc_btn_multi);
-        calc_btn_multi.setOnClickListener(this::mainClick);
-
-        calc_btn_min = findViewById(R.id.calc_btn_min);
-        calc_btn_min.setOnClickListener(this::mainClick);
-
-        calc_btn_plus = findViewById(R.id.calc_btn_plus);
-        calc_btn_plus.setOnClickListener(this::mainClick);
-
-        calc_btn_div = findViewById(R.id.calc_btn_div);
-        calc_btn_div.setOnClickListener(this::mainClick);
-
-        calc_btn_comma = findViewById(R.id.calc_btn_comma);
-        calc_btn_comma.setOnClickListener(this::mainClick);
-
-        calc_btn_equals = findViewById(R.id.calc_btn_equals);
-        calc_btn_equals.setOnClickListener(this::mainClick);
-
-        calc_btn_c = findViewById(R.id.calc_btn_c);
-        calc_btn_c.setOnClickListener(this::mainClick);
+        String str = tvResult.getText().toString();
+        if (!Character.isDigit(str.charAt(str.length() - 1))) // знак в конце tvResult
+            tvResult.setText(tvResult.getText().toString().substring(0, str.length() - 1));
+        exp = tvExpression.getText().toString();
+        if (exp.length() > 0) {
+            String  lastChar = exp.substring(exp.length() - 1);
+            if (lastChar.equals(getString(R.string.calc_btn_plus))) {
+                operand += getResult(str);
+            } else if (lastChar.equals(getString(R.string.calc_btn_minus))) {
+                operand -= getResult(str);
+            } else if (lastChar.equals(getString(R.string.calc_btn_multiplication))) {
+                operand *= getResult(str);
+            } else if (lastChar.equals(getString(R.string.calc_btn_divide))) {
+                if (getResult(str) == 0){
+                    tvResult.setText(R.string.calc_div_zero_message);return;
+                }
+                else{
+                    operand /= getResult(str);
+                }
+            } else {
+            operand = getResult(str);
+            str += ((Button) view).getText();
+        }
+            if(((Button) view).getText().toString().equals("=")) {
+                tvResult.setText(showResult(operand));
+                str = exp+str + ((Button) view).getText()+ showResult(operand);
+                tvExpression.setText(str);
+                flag = true; return;
+            }
+            tvResult.setText(showResult(operand));
+            str = showResult(operand) + ((Button) view).getText();
+        } else {
+            operand = getResult(str);
+            str += ((Button) view).getText();
+        }
+        tvExpression.setText(str);
+        flag = true;
+    }
+    private double getResult(String str) {
+        str = str.replaceAll( getString( R.string.calc_btn_0 ), "0" );
+        str = str.replaceAll( getString( R.string.calc_btn_comma ), "." );
+        return Double.parseDouble( str );
+    }
+    private String showResult(double res) {
+        String str =  String.valueOf( res );
+        if(str.length()>MAX_DIGITS){
+            str = str.substring(0,MAX_DIGITS);
+        }
+        String[] parts = str.split("\\."); //убрала нули
+        if (parts.length == 2) {
+            String num = parts[1];
+            int intValue = Integer.parseInt(num);
+            if(intValue==0) {
+                return  parts[0];
+            }
+        }
+        return str;
+    }
+    private void clearClickC( View view ) {
+        tvResult.setText( R.string.calc_btn_0 ) ;
+        operand  = 0;
+        tvExpression.setText("");
+    }
+    private void clearClickCE( View view ) {
+        tvResult.setText( R.string.calc_btn_0 ) ;
+    }
+    private void commaClick( View view ) {
+        String str = tvResult.getText().toString() ;
+        if (str.contains(",")||str.contains(".")) return;
+        str += ( ( Button ) view ).getText();
+        tvResult.setText( str );
     }
 }
+
