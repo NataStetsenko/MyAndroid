@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="game_title_background">#EACA5E</color>
+    <color name="game_title_foreground">#FFFFFF</color>
+    <color name="game_score_background">#3D3A33</color>
+    <color name="game_score_foreground">#FFFFFF</color>
+    <color name="bnt_background">#FFF65E3E</color>
+    <color name="bnt_foreground">#FFFFFF</color>
+
+
+    <color name="table_background">#A39280</color>
+    <color name="tv_null">#C8BBAB</color>
+
+    <color name="tv_2">#EDE3D9</color>
+    <color name="tv_4">#FFEADEC4</color>
+    <color name="tv_8">#F0B17C</color>
+    <color name="tv_16">#EB8C53</color>
+    <color name="tv_32">#F47C5F</color>
+    <color name="tv_64">#FA5E3D</color>
+    <color name="tv_128">#EECE6A</color>
+    <color name="tv_256">#F0CF4B</color>
+    <color name="tv_512">#E3BF2A</color>
+
+
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 

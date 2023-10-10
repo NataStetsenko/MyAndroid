@@ -21,6 +21,8 @@ private TextView main_tv_title;
         main_btn.setOnClickListener(this::mainBtnClick);
         test_btn.setOnClickListener(this::testBtnClick);
         app_btn_calc.setOnClickListener(this::calcBtnClick);
+        findViewById(R.id.app_btn_2048).setOnClickListener(this::gameBtnClick);
+        app_btn_calc.setOnClickListener(this::calcBtnClick);
     }
     private void mainBtnClick(View view){
         Intent intent = new Intent(this.getApplicationContext(), ViewsActivity.class);
@@ -32,6 +34,10 @@ private TextView main_tv_title;
     }
     private void calcBtnClick(View view){
         Intent intent = new Intent(this.getApplicationContext(), CalcActivity.class);
+        startActivity(intent);
+    }
+    private void gameBtnClick(View view){
+        Intent intent = new Intent(this.getApplicationContext(), GameActivity.class);
         startActivity(intent);
     }
 }

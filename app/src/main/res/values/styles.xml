@@ -17,4 +17,49 @@
     <style name="calc_btn_equal" parent="calc_btn">
         <item name="android:background">@drawable/calc_btn_equal</item>
     </style>
+    <style name="game_title">
+
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/game_title_foreground</item>
+    </style>
+    <style name="game_title_el" parent="game_title">
+        <item name="android:background">@drawable/game_title_el</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="game_score_best">
+        <item name="android:background">@drawable/game_score_best</item>
+    </style>
+
+
+    <style name="game_score" parent="game_title">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="game_score2" parent="game_title">
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="game_btn" parent="game_title">
+        <item name="android:background">@drawable/game_btn</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:layout_marginTop">7dp</item>
+    </style>
+    <style name="tv_game">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+    <style name="tv_null" parent="tv_game">
+        <item name="android:background">@drawable/game_vt_null</item>
+    </style>
+    <style name="tv_not_null" parent="tv_game">
+        <item name="android:textColor">@color/game_title_foreground</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="tv_512" parent="tv_not_null">
+        <item name="android:background">@drawable/game_tv_512</item>
+    </style>
 </resources>

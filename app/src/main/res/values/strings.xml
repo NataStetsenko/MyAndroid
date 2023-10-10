@@ -6,6 +6,28 @@
     <string name="calc_tv_title">Калькулятор</string>
 
 
+    <string name="calc_tv_2048">2048</string>
+    <string name="game_tv_title">2048</string>
+    <string name="game_tv_hint">Join the numbers and get to get the 2048 tile!</string>
+    <string name="btn_new_game">NEW</string>
+    <string name="btn_undo">UNDO</string>
+    <string name="SCORE">SCORE</string>
+    <string name="BEST">BEST</string>
+    <string name="SCORE2">2048</string>
+    <string name="BEST2">4096</string>
+
+
+    <string name="tv_2">2</string>
+    <string name="tv_4">4</string>
+    <string name="tv_8">8</string>
+    <string name="tv_16">16</string>
+    <string name="tv_32">32</string>
+    <string name="tv_64">64</string>
+    <string name="tv_128">128</string>
+    <string name="tv_256">256</string>
+    <string name="tv_512">512</string>
+
+
     <string name="view_tv_title">Елементи UA (Views)</string>
     <string name="button1">1</string>
     <string name="button2">2</string>
