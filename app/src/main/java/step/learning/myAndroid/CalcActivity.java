@@ -81,8 +81,8 @@ public class CalcActivity extends AppCompatActivity {
     }
     private void backspaceClick( View view ) {
         String str = tvResult.getText().toString();
-        if (str.length()>0)
-        tvResult.setText(tvResult.getText().toString().substring(0, str.length() - 1));
+//        if (str.length()>0)
+//        tvResult.setText(tvResult.getText().toString().substring(0, str.length() - 1));
     }
     private void inverseClick( View view ) {
         String str = tvResult.getText().toString() ;

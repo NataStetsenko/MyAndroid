@@ -50,16 +50,55 @@
         <item name="backgroundTint">@null</item>
         <item name="android:layout_marginLeft">8dp</item>
     </style>
-    <style name="tv_null" parent="tv_game">
-        <item name="android:background">@drawable/game_vt_null</item>
-    </style>
-    <style name="tv_not_null" parent="tv_game">
-        <item name="android:textColor">@color/game_title_foreground</item>
+
+
+
+
+
+
+
+
+    <style name="game_tv_0" parent="tv_game">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/game_tv_0</item>
+        <item name="android:textColor">@color/tv_0</item>
     </style>
-    <style name="tv_512" parent="tv_not_null">
+    <style name="game_tv_2" parent="game_tv_0">
+        <item name="android:textColor">@color/table_background</item>
+        <item name="android:background">@drawable/game_tv_2</item>
+    </style>
+    <style name="game_tv_4" parent="game_tv_0">
+        <item name="android:textColor">@color/table_background</item>
+        <item name="android:background">@drawable/game_tv_4</item>
+    </style>
+    <style name="game_tv_8" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_8</item>
+    </style>
+    <style name="game_tv_16" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_16</item>
+    </style>
+    <style name="game_tv_32" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_32</item>
+    </style>
+    <style name="game_tv_64" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_64</item>
+    </style>
+    <style name="game_tv_128" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_128</item>
+    </style>
+    <style name="game_tv_256" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
+        <item name="android:background">@drawable/game_tv_256</item>
+    </style>
+    <style name="game_tv_512" parent="game_tv_0">
+        <item name="android:textColor">@color/num_color</item>
         <item name="android:background">@drawable/game_tv_512</item>
     </style>
 </resources>

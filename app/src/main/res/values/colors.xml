@@ -9,7 +9,7 @@
 
 
     <color name="table_background">#A39280</color>
-    <color name="tv_null">#C8BBAB</color>
+    <color name="tv_0">#C8BBAB</color>
 
     <color name="tv_2">#EDE3D9</color>
     <color name="tv_4">#FFEADEC4</color>
@@ -21,6 +21,8 @@
     <color name="tv_256">#F0CF4B</color>
     <color name="tv_512">#E3BF2A</color>
 
+
+    <color name="num_color">#FFEADEC4</color>
 
 
     <color name="black">#FF000000</color>

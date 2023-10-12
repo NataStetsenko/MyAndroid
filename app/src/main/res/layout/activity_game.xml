@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/game_layout"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".GameActivity">
 
     <LinearLayout
@@ -98,65 +99,107 @@
         android:textAlignment="center"
         android:textSize="10sp"/>
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="40dp"
-        android:background="@color/table_background">
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <TableRow
+        <TableLayout
+            android:id="@+id/game_table"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp">
-            <TextView style="@style/tv_512"
-                android:text="@string/tv_512"/>
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-        </TableRow>
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="40dp"
+            android:background="@color/table_background">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:id="@+id/game_cell_00"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_01"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_02"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_03"
+                    style="@style/game_tv_0" />
+            </TableRow>
 
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-        </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp">
+                <TextView
+                    android:id="@+id/game_cell_10"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_11"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_12"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_13"
+                    style="@style/game_tv_0" />
+            </TableRow>
 
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-        </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp">
+                <TextView
+                    android:id="@+id/game_cell_20"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_21"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_22"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_23"
+                    style="@style/game_tv_0" />
+            </TableRow>
 
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-            <TextView style="@style/tv_null" />
-        </TableRow>
-    </TableLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/game_cell_30"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_31"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_32"
+                    style="@style/game_tv_0" />
+                <TextView
+                    android:id="@+id/game_cell_33"
+                    style="@style/game_tv_0" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+
+
 
 </LinearLayout>
