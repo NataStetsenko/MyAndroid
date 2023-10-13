@@ -13,8 +13,19 @@
     <string name="btn_undo">UNDO</string>
     <string name="SCORE">SCORE</string>
     <string name="BEST">BEST</string>
-    <string name="SCORE2">0</string>
+    <string name="SCORE2">%d</string>
     <string name="BEST2">256</string>
+
+
+    <string name="game_toast_no_move">Not move</string>
+
+    <string name="game_over">Game over</string>
+    <string name="game_over_dialog">Do you want to start over?</string>
+    <string name="game_over_yes">Yes</string>
+    <string name="game_over_no">No</string>
+
+
+    <string name="game_checkbox_sound">Sound</string>
 
 
     <string name="tv_2">2</string>
