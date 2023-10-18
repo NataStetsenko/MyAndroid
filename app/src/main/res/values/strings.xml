@@ -14,7 +14,7 @@
     <string name="SCORE">SCORE</string>
     <string name="BEST">BEST</string>
     <string name="SCORE2">%d</string>
-    <string name="BEST2">256</string>
+    <string name="BEST2">%d</string>
 
 
     <string name="game_toast_no_move">Not move</string>
@@ -23,6 +23,13 @@
     <string name="game_over_dialog">Do you want to start over?</string>
     <string name="game_over_yes">Yes</string>
     <string name="game_over_no">No</string>
+    <string name="game_over_undo">Undo</string>
+
+    <string name="game_new_game">New game</string>
+    <string name="game_new_game_dialog">Do you want start new game?</string>
+
+    <string name="game_2048">Congratulations.</string>
+    <string name="game_2048_dialog">You have reached 2048!!!\nContinue?</string>
 
 
     <string name="game_checkbox_sound">Sound</string>

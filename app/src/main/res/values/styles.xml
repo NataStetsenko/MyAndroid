@@ -101,4 +101,11 @@
         <item name="android:textColor">@color/num_color</item>
         <item name="android:background">@drawable/game_tv_512</item>
     </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- Used for the background -->
+        <item name="android:background">@drawable/game_tv_32</item>
+    </style>
 </resources>

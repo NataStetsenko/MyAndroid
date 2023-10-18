@@ -87,7 +87,8 @@
                 android:layout_weight="3"
                 android:text="@string/btn_undo"
                 app:backgroundTint="@null"
-                style="@style/game_btn"/>
+                style="@style/game_btn"
+                android:enabled="false"/>
         </LinearLayout>
     </LinearLayout>
     <CheckBox

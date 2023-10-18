@@ -38,6 +38,7 @@ public class OnSwipeListener implements View.OnTouchListener {
         //  до яких жест не буде вважатись свайпом.
         private static final int MIN_DISTANCE = 100;
         private static final int MIN_VELOCITY = 100;
+
         //10. обробник, що зупеняє події
         @Override
         public boolean onDown(@NonNull MotionEvent e) {
@@ -57,10 +58,9 @@ public class OnSwipeListener implements View.OnTouchListener {
                 if (Math.abs(distanceX) > MIN_DISTANCE &&
                         Math.abs(velocityX) > MIN_VELOCITY) {
                     result = true;
-                    if (velocityX>0){ // e1...->...e2
-                            onSwipeRight();
-                    }
-                    else {// e1...<-...e2
+                    if (velocityX > 0) { // e1...->...e2
+                        onSwipeRight();
+                    } else {// e1...<-...e2
                         onSwipeLeft();
                     }
                 }
@@ -70,10 +70,9 @@ public class OnSwipeListener implements View.OnTouchListener {
                 if (Math.abs(distanceY) > MIN_DISTANCE &&
                         Math.abs(velocityY) > MIN_VELOCITY) {
                     result = true;
-                    if (velocityY>0){   // e1
+                    if (velocityY > 0) {   // e1
                         onSwipeBottom();//e2
-                    }
-                    else {              //e2
+                    } else {              //e2
                         onSwipeTop();   // e1
                     }
                 }
@@ -81,11 +80,19 @@ public class OnSwipeListener implements View.OnTouchListener {
             return result;
         }
     }
+
     //------- зовнішній інтерфейс--------
-    public void onSwipeBottom(){}
-    public void onSwipeLeft(){}
-    public void onSwipeRight(){}
-    public void onSwipeTop(){}
+    public void onSwipeBottom() {
+    }
+
+    public void onSwipeLeft() {
+    }
+
+    public void onSwipeRight() {
+    }
+
+    public void onSwipeTop() {
+    }
 }
 /*
 Детектор жестів. Свайпи.

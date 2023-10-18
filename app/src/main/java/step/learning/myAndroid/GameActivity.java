@@ -4,11 +4,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.media.MediaParser;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -21,38 +23,56 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
-    private final int[][] cells = new int[4][4];
     private static final int N = 4;
-    private final TextView[][] tvCells = new TextView[N][N];
-    private final Random random = new Random();
-    private int score;
-    private TextView tvScore;
-    private TextView tvBest;
-    private Animation spanSellAnimation;
-    private Animation collapseSellAnimation;
-    private MediaPlayer spawnSound;
+    private final int[][] cells = new int[N][N] ;
+    private final int[][] prevCells = new int[N][N] ;  // for UNDO action
+    private final int[][] tmpCells = new int[N][N] ;  // for UNDO action
+    private final TextView[][] tvCells = new TextView[N][N] ;
+    private final Random random = new Random() ;
+
+    private int score ;
+    private int prevScore ;
+    private int tmpScore ;
+    private int bestScore;
+    private int prevBestScore ;
+    private int tmpBestScore ;
+    private TextView tvScore ;
+    private TextView tvBestScore ;
+    private Animation spawnCellAnimation ;
+    private Animation collapseSellAnimation ;
+    private MediaPlayer spawnSound ;
+    private static final String bestScoreFilename = "best_score" ;
     private CheckBox checkBox;
+    private boolean flagForCell2048 = true;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         tvScore = findViewById(R.id.tv_game_score);
-        tvBest = findViewById(R.id.tv_game_best);
+        tvBestScore = findViewById(R.id.tv_game_best);
         checkBox = findViewById(R.id.game_checkbox_sound);
-        findViewById(R.id.game_btn_undo).setOnClickListener(this::UndoClick);
+
         // завантажуємо анімацію
-        spanSellAnimation = AnimationUtils.loadAnimation(
+        spawnCellAnimation = AnimationUtils.loadAnimation(
                 GameActivity.this,
                 R.anim.game_spwn_cell
         );
         // ініціалізуємо анімацію
-        spanSellAnimation.reset();
+        spawnCellAnimation.reset();
         collapseSellAnimation = AnimationUtils.loadAnimation(
                 GameActivity.this,
                 R.anim.game_collapse_cell
@@ -85,68 +105,140 @@ public class GameActivity extends AppCompatActivity {
                 new OnSwipeListener(GameActivity.this) {
                     @Override
                     public void onSwipeBottom() {
-                        if (moveBottom()) {
-                            spawnCell();
-                            showField();
-                        } else if (freeCellIndex()) {
-                            gameOver();
-                        } else {
-                            Toast.makeText(GameActivity.this,
-                                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
-                        }
+                        processMove(MoveDirection.BOTTOM);
                     }
 
                     @Override
                     public void onSwipeLeft() {
-                        if (moveLeft()) {
-                            spawnCell();
-                            showField();
-                        } else if (freeCellIndex()) {
-                            gameOver();
-                        } else {
-                            Toast.makeText(GameActivity.this,
-                                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
-                        }
+                        processMove(MoveDirection.LEFT);
                     }
 
                     @Override
                     public void onSwipeRight() {
-                        if (moveRight()) {
-                            spawnCell();
-                            showField();
-                        } else if (freeCellIndex()) {
-                            gameOver();
-                        } else {
-                            Toast.makeText(GameActivity.this,
-                                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
-                        }
+                        processMove(MoveDirection.RIGHT);
                     }
 
                     @Override
                     public void onSwipeTop() {
-                        if (moveTop()) {
-                            spawnCell();
-                            showField();
-                        } else if (freeCellIndex()) {
-                            gameOver();
-                        } else {
-                            Toast.makeText(GameActivity.this,
-                                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
-                        }
+                        processMove(MoveDirection.TOP);
                     }
                 }
         );
+        findViewById(R.id.game_btn_undo).setOnClickListener(this::undoMoveClick);
+        findViewById(R.id.game_btn_new).setOnClickListener(this::newGameClick);
+        loadBestScore();
+        startNewGame();
+    }
+
+
+    private void newGameClick(View view) {
+        // TODO: вивести повідомлення-підтвердження
+        findViewById(R.id.game_btn_undo).setEnabled(false);
+        showNewGameDialog();
+    }
+
+    private void undoMoveClick(View view) {
+        for (int i = 0; i < N; i++) {
+            System.arraycopy(prevCells[i], 0, cells[i], 0, N);
+        }
+        score = prevScore;
+        bestScore = prevBestScore;
+        saveBestScore();
+        showField();
+    }
+
+    private void saveBestScore() {
+        /* Android має розподілену файлову систему. У застосунку є вільний
+         *  доступ до приватних файлів, які є частиною роботи та автоматично
+         *  видаляються разом з застосунком. Є спільні ресурси (картинки, завантаження
+         *  тощо) доступ до яких зазначається у маніфесті та має погоджуватись
+         *  дозволом користувача. Інші файли можуть виявитись недоступними. */
+        try (FileOutputStream outputStream = openFileOutput(bestScoreFilename, Context.MODE_PRIVATE);
+             DataOutputStream writer = new DataOutputStream(outputStream)) {
+            writer.writeInt(bestScore);
+            writer.flush();
+            Log.d("bestScoreFilename", "save ok");
+        } catch (IOException e) {
+            Log.e("bestScoreFilename", e.getMessage());
+        }
+    }
+    private void loadBestScore() {
+        try( FileInputStream inputStream = openFileInput( bestScoreFilename ) ;
+             DataInputStream reader = new DataInputStream( inputStream )
+        ) {
+            bestScore = reader.readInt() ;
+            Log.d( "loadBestScore", "Best score read: " + bestScore ) ;
+        }
+        catch( IOException ex ) {
+            bestScore = 0 ;
+            Log.e( "loadBestScore", Objects.requireNonNull( ex.getMessage() ) ) ;
+        }
+    }
+
+    private void startNewGame() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cells[i][j] = 0;
+            }
+        }
+        score = 0;
+        loadBestScore();
+        tvBestScore.setText(getString(R.string.BEST2, bestScore ));
         spawnCell();
         spawnCell();
         showField();
     }
 
-    private void UndoClick(View view) {
-
+    private void processMove(MoveDirection direction) {
+        for( int i = 0; i < N; i++ ) {
+            System.arraycopy( cells[ i ], 0, tmpCells[ i ], 0, N );
+        }
+          tmpScore = score;
+          tmpBestScore = bestScore;
+        if (move(direction)) {
+            for( int i = 0; i < N; i++ ) {
+                System.arraycopy( tmpCells[ i ], 0, prevCells[ i ], 0, N );
+            }
+            findViewById(R.id.game_btn_undo).setEnabled(true);
+            prevScore = tmpScore;
+            prevBestScore = tmpBestScore;
+            spawnCell();
+            showField();
+            if(flagForCell2048 && cell2048()){
+                showCell2048Dialog();
+                flagForCell2048 = false;
+            }
+            if (isGameFail()) {
+                showFailDialog();
+            } else {
+                if (score > bestScore) {
+                    bestScore = score;
+                    saveBestScore();
+                    tvBestScore.setText( getString( R.string.BEST2, bestScore ) ) ;
+                }
+            }
+        } else {
+            Toast.makeText(GameActivity.this,
+                    R.string.game_toast_no_move, Toast.LENGTH_SHORT).show();
+        }
+    }
+    private boolean move(MoveDirection direction) {
+        switch (direction) {
+            case BOTTOM:
+                return moveBottom();
+            case LEFT:
+                return moveLeft();
+            case RIGHT:
+                return moveRight();
+            case TOP:
+                return moveTop();
+        }
+        return false;
     }
 
     /**
      * Поява нового числа на полі
+     *
      * @return чи додалось число (є вільні комірки)
      */
     private boolean spawnCell() {
@@ -161,15 +253,15 @@ public class GameActivity extends AppCompatActivity {
         }
         int cnt = freeCellIndex.size();
         if (cnt == 0) {
-           return false;
+            return false;
         }
         int randomIndex = random.nextInt(cnt);
         int randomCellIndex = freeCellIndex.get(randomIndex);
         int x = randomCellIndex / 10;
         int y = randomCellIndex % 10;
-        cells[x][y] = random.nextInt(10) == 0 ? 2 : 4;
-        tvCells[x][y].startAnimation(spanSellAnimation);
-        if(checkBox.isChecked())
+        cells[x][y] = random.nextInt(10) == 0 ? 4 : 2;
+        tvCells[x][y].startAnimation(spawnCellAnimation);
+        if (checkBox.isChecked())
             spawnSound.start();
         return true;
     }
@@ -196,6 +288,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         tvScore.setText(getString(R.string.SCORE2, score));
+        tvBestScore.setText( getString( R.string.BEST2, bestScore ) ) ;
     }
 
     private boolean moveRight() {
@@ -231,6 +324,7 @@ public class GameActivity extends AppCompatActivity {
         }
         return result;
     }
+
     private boolean moveLeft() {
         boolean result = false;
         // все переміщуємо ліворуч
@@ -265,6 +359,7 @@ public class GameActivity extends AppCompatActivity {
         //переміщуємо ліворуч
         return result;
     }
+
     private boolean moveTop() {
         boolean result = false;
         boolean needRepeat;
@@ -296,6 +391,7 @@ public class GameActivity extends AppCompatActivity {
         }
         return result;
     }
+
     private boolean moveBottom() {
         boolean result = false;
         boolean needRepeat;
@@ -326,59 +422,88 @@ public class GameActivity extends AppCompatActivity {
         }
         return result;
     }
-    private void gameOver(){
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N-1; j++) {
-                if (cells[i][j] == cells[i][j + 1]) {
-                    return;
-                }
-            }
-        }
-        for (int i = 0; i < N-1; i++) {
-            for (int j = 0; j < N; j++)  {
-                if (cells[i][j] == cells[i + 1][j]) {
-                    return;
-                }
-            }
-        }
-        if (Integer.parseInt(tvScore.getText().toString()) > Integer.parseInt(tvBest.getText().toString()))
-            tvBest.setText(tvScore.getText().toString());
-        showGameOverDialog();
-    }
-    private boolean freeCellIndex() {
-        List<Integer> freeCellIndex = new ArrayList<>();
+
+    private boolean isGameFail() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (cells[i][j] == 0) {
-                    freeCellIndex.add(10 * i + j);
+                    return false;
                 }
             }
         }
-        int cnt = freeCellIndex.size();
-        if (cnt == 0) {
-            return true;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N - 1; j++) {
+                if (cells[i][j] == cells[i][j + 1]) {
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cells[i][j] == cells[i + 1][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    private boolean cell2048() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cells[i][j] == 16) {
+                    return true;
+                }
+            }
         }
         return false;
     }
-    private void showGameOverDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.game_over);
-        builder.setMessage(R.string.game_over_dialog);
-        builder.setPositiveButton(R.string.game_over_yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.setNegativeButton(R.string.game_over_no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    private void showFailDialog() {
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setIcon(android.R.drawable.ic_menu_info_details)
+                .setTitle(R.string.game_over)
+                .setMessage(R.string.game_over_dialog)
+                .setCancelable(false)
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                startNewGame())
+                .setNegativeButton(R.string.game_over_no,
+                        (DialogInterface dialog, int whichButton) ->
+                                finish())
+                .setNeutralButton(R.string.game_over_undo,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss())
+                .show();
     }
+    private void showNewGameDialog() {
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setIcon(android.R.drawable.ic_menu_help)
+                .setTitle(R.string.game_new_game)
+                .setMessage(R.string.game_new_game_dialog)
+                .setCancelable(false)
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                startNewGame())
+                .setNegativeButton(R.string.game_over_no,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss())
+                .show();
+    }
+    private void showCell2048Dialog() {
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setIcon(android.R.drawable.ic_menu_myplaces)
+                .setTitle(R.string.game_2048)
+                .setMessage(R.string.game_2048_dialog)
+                .setCancelable(false)
+                .setPositiveButton(R.string.game_over_yes,
+                        (DialogInterface dialog, int whichButton) ->
+                                dialog.dismiss())
+                .setNegativeButton(R.string.game_over_no,
+                        (DialogInterface dialog, int whichButton) ->
+                                finish())
+                .show();
+    }
+
+    private enum MoveDirection {BOTTOM, LEFT, RIGHT, TOP}
 }
 /*
 Анімації (double-anim) - плавні переходи числових параметрів
