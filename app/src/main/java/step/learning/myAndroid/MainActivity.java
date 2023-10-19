@@ -22,8 +22,15 @@ private TextView main_tv_title;
         test_btn.setOnClickListener(this::testBtnClick);
         app_btn_calc.setOnClickListener(this::calcBtnClick);
         findViewById(R.id.app_btn_2048).setOnClickListener(this::gameBtnClick);
+        findViewById(R.id.app_btn_rates).setOnClickListener(this::ratesBtnClick);
         app_btn_calc.setOnClickListener(this::calcBtnClick);
     }
+
+    private void ratesBtnClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), RatesActivity.class);
+        startActivity(intent);
+    }
+
     private void mainBtnClick(View view){
         Intent intent = new Intent(this.getApplicationContext(), ViewsActivity.class);
         startActivity(intent);

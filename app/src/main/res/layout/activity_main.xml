@@ -62,6 +62,17 @@
         android:fontFamily="@font/montserrat"
         android:text="@string/calc_tv_2048"
         android:textSize="14sp" />
+    <Button
+        android:id="@+id/app_btn_rates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_btn_2048"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginTop="30sp"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/app_btn_rates"
+        android:textSize="14sp" />
 
 
 </RelativeLayout>
