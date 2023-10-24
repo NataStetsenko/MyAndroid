@@ -12,6 +12,11 @@
     <string name="rates_ex_thread">Відкриття з\'єднання з UI (основного) потоку</string>
     <string name="rates_continue">OK</string>
     <string name="rates_tittle">Кращий курс</string>
+    <string name="rates_btn">За назвою</string>
+    <string name="rates_btn_max">За зростанням</string>
+    <string name="rates_btn_min">За зменшенням</string>
+    <string name="rates_edit">Введить... </string>
+    <string name="rates_btn_edit">Шукати</string>
 
 
 

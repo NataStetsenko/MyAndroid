@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class NbuRateResponse {
     private List<NbuRate> rates;
@@ -25,6 +26,7 @@ public class NbuRateResponse {
     public void setRates(List<NbuRate> rates) {
         this.rates = rates;
     }
+
 
 
 }

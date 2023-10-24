@@ -39,7 +39,7 @@ public class TestActivity extends AppCompatActivity {
     private Button btn_temp;
     private EditText edit_text;
     private TextView tv_result;
-    private String url;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,29 +56,49 @@ public class TestActivity extends AppCompatActivity {
                 String apiKey = "b08aa3ebaee036a3beee53edc090be62";
                 String units = "metric";
                 String language = "ua";
-                url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=" + units + "&lang=" + language;
-                tv_result.setText(url);
+                String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=" + units + "&lang=" + language;
+                new Thread(() -> loadUrlData(url)).start();
             }
         });
     }
-//    private void loadUlrData() {
-//        try( InputStream stream = new URL(nbuRaterUrl).openStream();) {
-//            ByteArrayOutputStream builder = new ByteArrayOutputStream();
-//            byte[] buffer = new byte[1024 * 16];
-//            int receivedLength;
-//            while ((receivedLength = stream.read(buffer)) > 0) {
-//                builder.write(buffer, 0, receivedLength);
-//            }
-//            runOnUiThread(() ->
-//                    tvJson.setText(builder.toString()));
-//        } catch (MalformedURLException e) {
-//            tvJson.setText(e.getMessage());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (NetworkOnMainThreadException ignored) {
-//            tvJson.setText("Відкриття з'єднання з UI (основного) потоку");
-//        }
-//    }
+
+    private void loadUrlData(String url) {
+        try (InputStream stream = new URL(url).openStream();) {
+            ByteArrayOutputStream builder = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024 * 16];
+            int receivedLength;
+            while ((receivedLength = stream.read(buffer)) > 0) {
+                builder.write(buffer, 0, receivedLength);
+            }
+            runOnUiThread(() ->
+                    tv_result.setText(builder.toString()));
+        } catch (MalformedURLException e) {
+            tv_result.setText(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NetworkOnMainThreadException ignored) {
+            tv_result.setText("Відкриття з'єднання з UI (основного) потоку");
+        }
+    }
+    //editText = findViewById(R.id.editText);
+        //editText.addTextChangedListener(new TextWatcher() {
+        //@Override
+        //public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Викликається перед зміною тексту
+        //}
+
+        //@Override
+        //public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // Викликається під час зміни тексту
+            //String newText = charSequence.toString();
+            //filterRate(newText);
+        //}
+
+        //@Override
+        //public void afterTextChanged(Editable editable) {
+            // Викликається після зміни тексту
+        //}
+    //});
 }
 
 

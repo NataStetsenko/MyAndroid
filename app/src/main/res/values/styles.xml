@@ -119,7 +119,19 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/calc_btn_equal_background</item>
+    </style>
+    <style name="rates_style2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/rate_yellow</item>
+    </style>
+    <style name="rates_btn" parent="game_title">
+        <item name="android:background">@drawable/calc_btn_equal</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:textColor">@color/rate_yellow</item>
     </style>
 
 </resources>
