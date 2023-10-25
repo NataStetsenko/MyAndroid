@@ -5,9 +5,10 @@
     <string name="app_btn_temp">Прогноз</string>
     <string name="calc_tv_title">Калькулятор</string>
     <string name="app_btn_rates">Курс валют</string>
-
-
-
+    <string name="app_btn_chat">Chat</string>
+    <string name="app_btn_chat2">Christmas Chat</string>
+    <string name="app_btn_send">Send</string>
+    <string name="no_input_chat">Введить текст!</string>
 
     <string name="rates_ex_thread">Відкриття з\'єднання з UI (основного) потоку</string>
     <string name="rates_continue">OK</string>
@@ -17,11 +18,6 @@
     <string name="rates_btn_min">За зменшенням</string>
     <string name="rates_edit">Введить... </string>
     <string name="rates_btn_edit">Шукати</string>
-
-
-
-
-
 
 
     <string name="calc_tv_2048">2048</string>

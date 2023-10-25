@@ -23,7 +23,13 @@ private TextView main_tv_title;
         app_btn_calc.setOnClickListener(this::calcBtnClick);
         findViewById(R.id.app_btn_2048).setOnClickListener(this::gameBtnClick);
         findViewById(R.id.app_btn_rates).setOnClickListener(this::ratesBtnClick);
+        findViewById(R.id.app_btn_chat).setOnClickListener(this::chatBtnClick);
         app_btn_calc.setOnClickListener(this::calcBtnClick);
+    }
+
+    private void chatBtnClick(View view) {
+        Intent intent = new Intent(this.getApplicationContext(), ChatActivity.class);
+        startActivity(intent);
     }
 
     private void ratesBtnClick(View view) {
