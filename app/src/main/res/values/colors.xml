@@ -5,6 +5,7 @@
     <color name="game_score_background">#3D3A33</color>
     <color name="game_score_foreground">#FFFFFF</color>
     <color name="bnt_background">#FFF65E3E</color>
+    <color name="red">#B5071A</color>
     <color name="bnt_foreground">#FFFFFF</color>
 
 

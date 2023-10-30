@@ -1,12 +1,39 @@
 package step.learning.myAndroid.orm;
 
 
+import android.view.View;
+
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ChatMessage {
     private String id;
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public SimpleDateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+   transient private View view;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public Date getDate(){
+        try {
+            return dateFormat.parse(getMoment());
+        }catch (Exception ignored){
+            return null;
+        }
+
+    }
 
     public String getAuthor() {
         return author;

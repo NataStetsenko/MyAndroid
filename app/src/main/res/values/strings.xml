@@ -9,6 +9,7 @@
     <string name="app_btn_chat2">Christmas Chat</string>
     <string name="app_btn_send">Send</string>
     <string name="no_input_chat">Введить текст!</string>
+    <string name="chat_et_nik">Nik:</string>
 
     <string name="rates_ex_thread">Відкриття з\'єднання з UI (основного) потоку</string>
     <string name="rates_continue">OK</string>

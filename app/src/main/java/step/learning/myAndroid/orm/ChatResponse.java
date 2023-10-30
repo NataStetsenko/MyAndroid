@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ChatResponse {
     private int status ;
-    private List<ChatMessage> data ;
+    public List<ChatMessage> data ;
 
 
     public static ChatResponse fromJsonString( String input ) {
